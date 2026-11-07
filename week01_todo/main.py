@@ -15,7 +15,24 @@ Day 5：处理输入错误（比如 done abc）
 Day 6：把存储逻辑拆到 storage.py
 """
 
+import json
+
 todos = []  # 每个元素：{"text": "写代码", "done": False}
+
+
+def load():
+    """从 todos.json 读数据。文件不存在就返回空列表。"""
+    try:
+        with open("todos.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+
+def save():
+    """把 todos 写回 todos.json。"""
+    with open("todos.json", "w", encoding="utf-8") as f:
+        json.dump(todos, f, ensure_ascii=False, indent=2)
 
 
 def add(text):
@@ -23,6 +40,7 @@ def add(text):
         print("内容不能为空")
         return
     todos.append({"text": text, "done": False})
+    save()
     print(f"已添加：{text}")
 
 
@@ -37,16 +55,26 @@ def show():
 
 
 def mark_done(index):
-    """把第 index 条标记为完成（index 从 0 开始）。TODO: 自己实现"""
-    pass
+    if 0 <= index < len(todos):
+        todos[index]["done"] = True
+        save()
+        print(f"已完成：{todos[index]['text']}")
+    else:
+        print("序号不存在")
 
 
 def delete(index):
-    """删除第 index 条。TODO: 自己实现"""
-    pass
+    if 0 <= index < len(todos):
+        removed = todos.pop(index)
+        save()
+        print(f"已删除：{removed['text']}")
+    else:
+        print("序号不存在")
 
 
 def main():
+    global todos
+    todos = load()
     print("=== 待办清单 v0.1 ===")
     print("add <内容> | list | done <序号> | delete <序号> | quit")
 

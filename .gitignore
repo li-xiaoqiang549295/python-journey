@@ -17,3 +17,5 @@ Thumbs.db
 
 # 项目数据（本地跑出来的，不要提交）
 *.json.bak
+
+todos.json

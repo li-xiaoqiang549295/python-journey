@@ -19,3 +19,6 @@ Thumbs.db
 *.json.bak
 
 todos.json
+
+# 数据库文件
+*.db

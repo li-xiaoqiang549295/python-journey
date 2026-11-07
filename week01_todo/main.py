@@ -86,6 +86,9 @@ def main():
         parts = raw.split(maxsplit=1)
         cmd = parts[0].lower()
         arg = parts[1] if len(parts) > 1 else ""
+        if cmd in ("done", "delete") and not arg.isdigit():
+            print("请输入数字，比如 done 1")
+            continue
 
         if cmd == "add":
             add(arg)

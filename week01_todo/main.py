@@ -19,13 +19,21 @@ todos = []  # 每个元素：{"text": "写代码", "done": False}
 
 
 def add(text):
-    """添加一条待办。TODO: 自己实现"""
-    pass
+    if not text:
+        print("内容不能为空")
+        return
+    todos.append({"text": text, "done": False})
+    print(f"已添加：{text}")
 
 
 def show():
-    """列出全部，完成的显示 [x]，未完成显示 [ ]。TODO: 自己实现"""
-    pass
+    if not todos:
+        print("还没有待办")
+        return
+
+    for i, t in enumerate(todos, start=1):
+        mark = "x" if t["done"] else " "
+        print(f"{i}. [{mark}] {t['text']}")
 
 
 def mark_done(index):

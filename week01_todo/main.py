@@ -14,33 +14,14 @@ Day 4：把 todos 存进 todos.json，重启不丢数据
 Day 5：处理输入错误（比如 done abc）
 Day 6：把存储逻辑拆到 storage.py
 """
-
-import json
-
+from storage import load,save
 todos = []  # 每个元素：{"text": "写代码", "done": False}
-
-
-def load():
-    """从 todos.json 读数据。文件不存在就返回空列表。"""
-    try:
-        with open("todos.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-
-def save():
-    """把 todos 写回 todos.json。"""
-    with open("todos.json", "w", encoding="utf-8") as f:
-        json.dump(todos, f, ensure_ascii=False, indent=2)
-
-
 def add(text):
     if not text:
         print("内容不能为空")
         return
     todos.append({"text": text, "done": False})
-    save()
+    save(todos)
     print(f"已添加：{text}")
 
 
@@ -57,7 +38,7 @@ def show():
 def mark_done(index):
     if 0 <= index < len(todos):
         todos[index]["done"] = True
-        save()
+        save(todos)
         print(f"已完成：{todos[index]['text']}")
     else:
         print("序号不存在")
@@ -66,7 +47,7 @@ def mark_done(index):
 def delete(index):
     if 0 <= index < len(todos):
         removed = todos.pop(index)
-        save()
+        save(todos)
         print(f"已删除：{removed['text']}")
     else:
         print("序号不存在")

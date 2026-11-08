@@ -3,6 +3,8 @@ import datetime
 def get_conn():
     """打开数据库连接。文件不存在会自动创建。"""
     return sqlite3.connect("money.db")
+
+
 def init_db():
     conn = get_conn()
     conn.execute("""
@@ -16,6 +18,8 @@ def init_db():
     """)
     conn.commit()
     conn.close()
+
+
 def add(amount, category, note=""):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     conn = get_conn()
@@ -28,6 +32,8 @@ def add(amount, category, note=""):
     conn.commit()
     conn.close()
     print(f"已记账：{amount} 元 - {category}")
+
+
 def show(limit=10):
     conn = get_conn()
     rows = conn.execute(

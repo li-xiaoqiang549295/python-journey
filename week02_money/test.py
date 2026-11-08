@@ -6,6 +6,26 @@ def get_conn():
     return sqlite3.connect("money.db")
 
 
+def stat():
+    month = datetime.datetime.now().strftime("%Y-%m")
+    conn = get_conn()
+    print(f"==={month}支出===:")
+    row = conn.execute(
+        "SELECT SUM(amount) FROM records WHERE created_at LIKE ?",
+        (month + "%",),).fetchone()
+    print(f"合计：{row[0] or 0}元")
+    rows = conn.execute(
+        "SELECT category, SUM(amount) FROM records "
+        "WHERE created_at LIKE ? "
+        "GROUP BY category "
+        "ORDER BY SUM(amount) DESC",
+        (month + "%",),
+    ).fetchall()
+    conn.close()
+    for category, amount in rows:
+        print(f"  {category}: {amount} 元")
+
+
 def init_db():
     conn = get_conn()
     conn.execute('''
@@ -36,7 +56,7 @@ def add(amount, category, note=""):
 def show(limit=10):
     conn = get_conn()
     rows = conn.execute('''
-    select id,amount,category,note,created_at from Records order by id desc limit ?''',
+    select id,amount,category,note,created_at from records order by id desc limit ?''',
                         (limit,)).fetchall()
 
     if not rows:
@@ -50,9 +70,9 @@ def show(limit=10):
 def main():
     init_db()
     print("---------------记账本---------------")
-    print("add 金额 用途 备注|list|quit")
+    print("add 金额 用途 备注|list|stat|quit")
     while True:
-        raw = input("请输入你的要求").strip()
+        raw = input("请输入你的要求：").strip()
         if not raw:
             continue
         parts = raw.split(maxsplit=3)
@@ -71,6 +91,8 @@ def main():
             add(amount, category, note)
         elif cmd == "list":
             show()
+        elif cmd == "stat":
+            stat()
         elif cmd == "quit":
             print("再见")
             break
@@ -80,3 +102,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

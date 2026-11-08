@@ -20,8 +20,10 @@ def add(amount, category, note=""):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     conn = get_conn()
     conn.execute(
-        "INSERT INTO records (amount, category, note, created_at) VALUES (?, ?, ?, ?)",
-        (amount, category, note, now),
+        "INSERT INTO records "
+        "(amount, category, note, created_at) "
+        "VALUES (?, ?, ?, ?)",
+        (amount, category, note, now)
     )
     conn.commit()
     conn.close()

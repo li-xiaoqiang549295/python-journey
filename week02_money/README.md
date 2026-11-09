@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS records (
 5. `SELECT` 字段数和拆包变量数不一致 → `too many/not enough values to unpack`
 6. 同一秒写入的记录按 `created_at` 排序不稳定 → 改用 `id`
 
-### 如果重写，会改什么
+### 将sql语句通过fetchall和fetchone两个方法转化为列表和元组，对sql语句进行使用并得到返回值打印输出
 
 1. 用 `with` 语句管理数据库连接，异常时也能自动关闭
 2. 金额用「分」为单位存整数，避免浮点误差

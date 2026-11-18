@@ -1,9 +1,9 @@
 import sqlite3
 import datetime
 
-
+DB_PATH = "money.db"
 def get_conn():
-    conn = sqlite3.connect('money.db')
+    conn = sqlite3.connect(DB_PATH)
     return conn
 
 

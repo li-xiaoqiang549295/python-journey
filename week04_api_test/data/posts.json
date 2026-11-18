@@ -1,0 +1,47 @@
+[
+  {
+    "name": "查询单篇文章",
+    "method": "get",
+    "path": "/posts/1",
+    "expect_status": 200,
+    "expect_fields": ["id", "title", "body"]
+  },
+  {
+    "name": "文章不存在",
+    "method": "get",
+    "path": "/posts/99999",
+    "expect_status": 404,
+    "expect_fields": []
+  },
+  {
+    "name": "按用户筛选文章",
+    "method": "get",
+    "path": "/posts",
+    "params": {"userId": 1},
+    "expect_status": 200,
+    "expect_fields": []
+  },
+  {
+    "name": "创建文章",
+    "method": "post",
+    "path": "/posts",
+    "body": {"title": "foo", "body": "bar", "userId": 1},
+    "expect_status": 201,
+    "expect_fields": ["id"]
+  },
+  {
+    "name": "更新文章",
+    "method": "put",
+    "path": "/posts/1",
+    "body": {"id": 1, "title": "x", "body": "y", "userId": 1},
+    "expect_status": 200,
+    "expect_fields": ["title"]
+  },
+  {
+    "name": "删除文章",
+    "method": "delete",
+    "path": "/posts/1",
+    "expect_status": 200,
+    "expect_fields": []
+  }
+]

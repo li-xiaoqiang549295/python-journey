@@ -26,5 +26,12 @@ def test_api(client, case):
     if PERF_CHECK:
         assert_response_time(resp, PERF_LIMIT)
 
-    if case["expect_fields"]:
-        assert_fields(resp.json(), case["expect_fields"])
+    data = resp.json() if resp.text else None
+
+    if "expect_len" in case:
+        assert len(data) == case["expect_len"], (
+            f"数量不对：期望 {case['expect_len']}，实际 {len(data)}"
+        )
+
+    if case.get("expect_fields"):
+        assert_fields(data, case["expect_fields"])

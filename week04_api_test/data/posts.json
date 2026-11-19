@@ -19,7 +19,7 @@
     "path": "/posts",
     "params": {"userId": 1},
     "expect_status": 200,
-    "expect_fields": []
+    "expect_len": 10
   },
   {
     "name": "创建文章",
@@ -43,5 +43,80 @@
     "path": "/posts/1",
     "expect_status": 200,
     "expect_fields": []
+  },
+  {
+    "name": "查文章的所有评论",
+    "method": "get",
+    "path": "/posts/1/comments",
+    "expect_status": 200,
+    "expect_fields": ["postId", "email"]
+  },
+  {
+    "name": "查用户详情",
+    "method": "get",
+    "path": "/users/1",
+    "expect_status": 200,
+    "expect_fields": ["username", "email"]
+  },
+  {
+    "name": "查已完成的待办",
+    "method": "get",
+    "path": "/todos",
+    "params": {"completed": "true"},
+    "expect_status": 200,
+    "expect_fields": ["completed"]
+  },
+  {
+    "name": "分页取 3 条",
+    "method": "get",
+    "path": "/posts",
+    "params": {"_limit": 3},
+    "expect_status": 200,
+    "expect_len": 3
+  },
+  {
+    "name": "id 不是数字",
+    "method": "get",
+    "path": "/posts/abc",
+    "expect_status": 404,
+    "expect_fields": []
+  },
+  {
+    "name": "id 是负数",
+    "method": "get",
+    "path": "/posts/-1",
+    "expect_status": 404,
+    "expect_fields": []
+  },
+  {
+    "name": "路径不存在",
+    "method": "get",
+    "path": "/notexist",
+    "expect_status": 404,
+    "expect_fields": []
+  },
+  {
+    "name": "userId 传字符串",
+    "method": "get",
+    "path": "/posts",
+    "params": {"userId": "abc"},
+    "expect_status": 200,
+    "expect_len": 0
+  },
+  {
+    "name": "分页取 0 条",
+    "method": "get",
+    "path": "/posts",
+    "params": {"_limit": 0},
+    "expect_status": 200,
+    "expect_len": 0
+  },
+  {
+    "name": "创建超长标题",
+    "method": "post",
+    "path": "/posts",
+    "body": {"title": "文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文文", "userId": 1},
+    "expect_status": 201,
+    "expect_fields": ["id"]
   }
 ]

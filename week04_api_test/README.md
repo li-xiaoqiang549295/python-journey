@@ -1,3 +1,4 @@
+![api-test](https://github.com/li-xiaoqiang549295/python-journey/actions/workflows/api-test.yml/badge.svg)
 # 接口自动化测试框架
 
 基于 pytest + requests 的接口测试项目：用例用 JSON 描述，代码负责请求、断言、日志和报告。

@@ -1,13 +1,12 @@
 import logging
 import pytest
 from http_client import HttpClient
+from config import BASE_URL
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-5s  %(name)s  %(message)s",
 )
-
-BASE_URL = "https://jsonplaceholder.typicode.com"
 
 
 @pytest.fixture

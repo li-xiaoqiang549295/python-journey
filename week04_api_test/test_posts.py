@@ -1,7 +1,9 @@
 import json
 import os
 import pytest
+
 from asserts import assert_status, assert_fields, assert_response_time
+from config import PERF_CHECK, PERF_LIMIT
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "data", "posts.json")
 
@@ -20,7 +22,9 @@ def test_api(client, case):
     resp = getattr(client, case["method"])(case["path"], **kwargs)
 
     assert_status(resp, case["expect_status"])
-    assert_response_time(resp, 3.0)
+
+    if PERF_CHECK:
+        assert_response_time(resp, PERF_LIMIT)
 
     if case["expect_fields"]:
         assert_fields(resp.json(), case["expect_fields"])
